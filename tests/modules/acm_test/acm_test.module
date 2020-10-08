@@ -1,0 +1,98 @@
+<?php
+
+/**
+ * @file
+ * Simply Energy API module.
+ */
+
+/**
+ * Implements hook_acm_environments_info().
+ */
+function acm_test_acm_environments_info() {
+  return [
+    [
+      'name' => 'uat',
+      'label' => t('UAT'),
+    ],
+    [
+      'name' => 'prod',
+      'label' => t('PROD'),
+    ],
+  ];
+}
+
+/**
+ * Implements hook_acm_endpoints_info().
+ */
+function acm_test_acm_endpoints_info() {
+  return [
+    [
+      'name' => 'provider1_uat',
+      'label' => t('Provider1 API - UAT'),
+      'url' => 'https://uat.provider1.com/v1',
+      'headers' => [
+        'userkey' => 'WEBPRE',
+        'modulekey' => 'Website.API',
+      ],
+    ],
+    [
+      'name' => 'provider1_prod',
+      'label' => t('Provider1 API - PROD'),
+      'url' => 'https://prod.provider1.com/v1',
+      'headers' => [
+        'userkey' => 'WEBPROD',
+        'modulekey' => 'Website.API',
+      ],
+    ],
+    [
+      'name' => 'provider2_uat',
+      'label' => t('Provider2 - UAT'),
+      'url' => 'https://uat.provider2.com/v1',
+    ],
+    [
+      'name' => 'provider2_prod',
+      'label' => t('Provider2 - PROD'),
+      'url' => 'https://prod.provider2.com/v1',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_acm_credentials_info().
+ */
+function acm_test_acm_credentials_info() {
+  return [
+    [
+      'name' => 'service1',
+      'label' => t('Service1'),
+      'parameters' => [
+        [
+          'name' => 'key',
+          'label' => t('Key'),
+          'type' => 'textfield',
+        ],
+        [
+          'name' => 'secret',
+          'label' => t('Secret'),
+          'type' => 'textfield',
+        ],
+      ],
+    ],
+    [
+      'name' => 'service2',
+      'label' => t('Service2'),
+      'parameters' => [
+        [
+          'name' => 'key',
+          'label' => t('Key'),
+          'type' => 'textfield',
+        ],
+        [
+          'name' => 'secret',
+          'label' => t('Secret'),
+          'type' => 'textfield',
+        ],
+      ],
+    ],
+  ];
+}

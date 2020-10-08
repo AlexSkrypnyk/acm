@@ -1,0 +1,9 @@
+name: API credentials manager test module
+description: Test module for API credentials manager
+type: module
+package: Other
+core_version_requirement: '^8.8 || ^9'
+dependencies:
+  - acm:acm
+
+hidden: true
