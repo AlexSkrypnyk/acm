@@ -1,0 +1,27 @@
+{
+    "name": "drupal/acm",
+    "description": "Manage API credentials between environments.",
+    "keywords": [
+        "api",
+        "integration",
+        "third-party"
+    ],
+    "type": "drupal-module",
+    "license": "GPL-2.0-or-later",
+    "homepage": "https://www.drupal.org/project/acm",
+    "authors": [
+        {
+            "name": "Alex Skrypnyk",
+            "email": "alex@integratedexperts.com"
+        }
+    ],
+    "support": {
+        "issues": "https://drupal.org/project/issues/acm",
+        "source": "https://git.drupalcode.org/project/acm"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "require": {
+        "drupal/encrypt": "^3@RC"
+    }
+}
