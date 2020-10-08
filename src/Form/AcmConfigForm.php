@@ -6,6 +6,7 @@ use Drupal\acm\AcmCredentialsManager;
 use Drupal\acm\AcmInfoManager;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Link;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
@@ -78,14 +79,21 @@ class AcmConfigForm extends ConfigFormBase {
     foreach ($envs as $env) {
       $env_options[$env->getName()] = $env->getLabel();
     }
-    $form['current_environment'] = [
-      '#type' => 'radios',
-      '#title' => $this->t('Current API environment'),
-      '#description' => $this->t('Select currently active API environment.<br/>Only credentials and endpoints from this environment will be used.<br/>Changing this value will not reset saved credentials for non-active environments.'),
-      '#options' => $env_options,
-      '#required' => TRUE,
-      '#default_value' => $this->credentialsManager->getCurrentEnvironment(),
-    ];
+    if (empty($env_options)) {
+      $form['current_environment_message'] = [
+        '#markup' => $this->t('Environments information is not defined in <code>hook_acm_environments_info()</code> (see <code>acm.api.php</code> file for reference).'),
+      ];
+    }
+    else {
+      $form['current_environment'] = [
+        '#type' => 'radios',
+        '#title' => $this->t('Current API environment'),
+        '#description' => $this->t('Select currently active API environment.<br/>Only credentials and endpoints from this environment will be used.<br/>Changing this value will not reset saved credentials for non-active environments.'),
+        '#options' => $env_options,
+        '#required' => TRUE,
+        '#default_value' => $this->credentialsManager->getCurrentEnvironment(),
+      ];
+    }
 
     $creds = $this->infoManager->getCredentials();
 
@@ -123,10 +131,17 @@ class AcmConfigForm extends ConfigFormBase {
       $encrypt_profile_options[$encrypt_profile->id()] = $encrypt_profile->label();
     }
 
+    $encrypt_profile_description = $this->t('Select Encrypt profile to encrypt credentials.<br/><strong>Changing Encrypt profile will reset all values!</strong>');
+    if (empty(array_filter(array_keys($encrypt_profile_options)))) {
+      $encrypt_profile_description .= '<br/>';
+      $encrypt_profile_description .= $this->t('There are no encryption profiles configured. @create_link to securely store your credentials.', [
+        '@create_link' => Link::createFromRoute($this->t('Create a new Encrypt profile'), 'entity.encryption_profile.add_form')->toString(),
+      ]);
+    }
     $form['encrypt_profile'] = [
       '#title' => $this->t('Encryption profile'),
       '#type' => 'select',
-      '#description' => $this->t('Select Encrypt profile to encrypt credentials.<br/><strong>Changing Encrypt profile will reset all values!</strong>'),
+      '#description' => $encrypt_profile_description,
       '#options' => $encrypt_profile_options,
       '#default_value' => $this->credentialsManager->getEncryptProfileName(),
     ];
