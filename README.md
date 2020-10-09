@@ -6,4 +6,4 @@ Drupal module to manage API credentials between environments.
 
 ## Features
 - Flexible API to define environments, endpoints and credentials fields.
-- Integration with [Encrypt](https://www.drupal.org/project/encrypt] module (and [Key](https://www.drupal.org/project/key) module by extent).
+- Integration with [Encrypt](https://www.drupal.org/project/encrypt) module (and [Key](https://www.drupal.org/project/key) module by extent).
