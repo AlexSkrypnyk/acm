@@ -243,7 +243,7 @@ class AcmCredentialsManager {
       $existing_credentials = $credentials_storage->get('credentials');
 
       foreach ($credentials as $name => $credential) {
-        // @todo: Improve handling of passed name or the whole object.
+        // @todo Improve handling of passed name or the whole object.
         $credentials[$name]['endpoint'] = is_object($credential['endpoint']) ? $credential['endpoint']->getName() : $credential['endpoint'];
 
         // Only invoke encryption on objects that were changed. This assessment
