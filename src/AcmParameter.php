@@ -22,7 +22,7 @@ class AcmParameter extends AcmAbstractEntity {
    * {@inheritdoc}
    */
   public function __construct($name, $label, $info) {
-    parent::__construct($name, $label, $info);
+    parent::__construct($name, $label);
     $this->type = $info['type'] ?? [];
   }
 

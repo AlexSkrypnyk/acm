@@ -32,11 +32,8 @@ class AcmAbstractEntity {
    *   Entity name to set.
    * @param string $label
    *   Entity label.
-   * @param array $info
-   *   (optional) Info array that may be used by the extending classes for more
-   *   contextual information.
    */
-  public function __construct($name, $label, array $info = []) {
+  public function __construct($name, $label) {
     $this->name = $name;
     $this->label = $label;
   }

@@ -43,7 +43,7 @@ class AcmEndpoint extends AcmAbstractEntity {
    * {@inheritdoc}
    */
   public function __construct($name, $label, $info) {
-    parent::__construct($name, $label, $info);
+    parent::__construct($name, $label);
     $this->url = $info['url'];
     $this->headers = $info['headers'] ?? [];
     $this->authUser = $info['user'] ?? '';
