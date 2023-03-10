@@ -22,7 +22,7 @@ class AcmCredential extends AcmAbstractEntity {
    * {@inheritdoc}
    */
   public function __construct($name, $label, $info) {
-    parent::__construct($name, $label, $info);
+    parent::__construct($name, $label);
 
     $this->parameters = !empty($info['parameters']) ? static::createParameterInstances($info['parameters']) : [];
   }
@@ -67,12 +67,15 @@ class AcmCredential extends AcmAbstractEntity {
    *   Array of parameter instances.
    */
   protected function createParameterInstances(array $infos) {
+    $instances = [];
+
     foreach ($infos as $info) {
       $instance = AcmParameter::fromInfo($info);
       if ($instance) {
         $instances[] = $instance;
       }
     }
+
     return $instances;
   }
 

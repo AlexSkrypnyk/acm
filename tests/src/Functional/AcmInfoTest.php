@@ -14,6 +14,11 @@ class AcmInfoTest extends BrowserTestBase {
   /**
    * {@inheritdoc}
    */
+  protected $defaultTheme = 'stark';
+
+  /**
+   * {@inheritdoc}
+   */
   protected static $modules = ['acm', 'acm_test'];
 
   /**
@@ -25,16 +30,16 @@ class AcmInfoTest extends BrowserTestBase {
 
     $this->drupalGet('/admin/config/services/api_credentials_manager');
 
-    $this->assertText('PROD');
-    $this->assertText('UAT');
+    $this->assertSession()->pageTextContains('PROD');
+    $this->assertSession()->pageTextContains('UAT');
 
-    $this->assertText('Service1');
-    $this->assertText('Service2');
+    $this->assertSession()->pageTextContains('Service1');
+    $this->assertSession()->pageTextContains('Service2');
 
-    $this->assertText('Provider1 API - UAT');
-    $this->assertText('Provider1 API - PROD');
-    $this->assertText('Provider2 - UAT');
-    $this->assertText('Provider2 - PROD');
+    $this->assertSession()->pageTextContains('Provider1 API - UAT');
+    $this->assertSession()->pageTextContains('Provider1 API - PROD');
+    $this->assertSession()->pageTextContains('Provider2 - UAT');
+    $this->assertSession()->pageTextContains('Provider2 - PROD');
   }
 
 }
