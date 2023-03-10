@@ -8,20 +8,26 @@
     ],
     "type": "drupal-module",
     "license": "GPL-2.0-or-later",
-    "homepage": "https://www.drupal.org/project/acm",
     "authors": [
         {
             "name": "Alex Skrypnyk",
-            "email": "alex@drevops.com"
+            "email": "alex@drevops.com",
+            "homepage": "https://www.drupal.org/u/alexskrypnyk",
+            "role": "Maintainer"
         }
     ],
+    "homepage": "https://drupal.org/project/acm",
     "support": {
         "issues": "https://drupal.org/project/issues/acm",
         "source": "https://git.drupalcode.org/project/acm"
     },
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "require": {
         "drupal/encrypt": "^3"
+    },
+    "repositories": {
+        "drupal": {
+            "type": "composer",
+            "url": "https://packages.drupal.org/8"
+        }
     }
 }
