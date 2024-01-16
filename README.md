@@ -2,7 +2,7 @@
 
 Drupal module to manage API credentials between environments.
 
-[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AlexSkrypnyk/acm.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AlexSkrypnyk/acm)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/AlexSkrypnyk/acm/tree/2%2Ex.svg?style=shield)](https://dl.circleci.com/status-badge/redirect/gh/AlexSkrypnyk/acm/tree/2%2Ex)
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/drevops/generated_content)
 ![LICENSE](https://img.shields.io/github/license/drevops/generated_content)
 
