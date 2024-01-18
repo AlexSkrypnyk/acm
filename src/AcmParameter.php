@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\acm;
+
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class AcmParameter.
@@ -16,14 +20,21 @@ class AcmParameter extends AcmAbstractEntity {
    *
    * @var string
    */
-  protected $type;
+  protected string $type;
 
   /**
-   * {@inheritdoc}
+   * Construct.
+   *
+   * @param string $name
+   *   Name.
+   * @param string|\Drupal\Core\StringTranslation\TranslatableMarkup $label
+   *   Label.
+   * @param array<mixed> $info
+   *   Info.
    */
-  public function __construct($name, $label, $info) {
+  public function __construct(string $name, string|TranslatableMarkup $label, array $info) {
     parent::__construct($name, $label);
-    $this->type = $info['type'] ?? [];
+    $this->type = $info['type'] ?? '';
   }
 
   /**
@@ -32,21 +43,21 @@ class AcmParameter extends AcmAbstractEntity {
    * @return string
    *   Teh type.
    */
-  public function getType() {
+  public function getType(): string {
     return $this->type;
   }
 
   /**
    * {@inheritdoc}
    */
-  protected static function getRequiredKeys() {
+  protected static function getRequiredKeys(): array {
     return array_merge(['type'], parent::getRequiredKeys());
   }
 
   /**
    * {@inheritdoc}
    */
-  protected static function sanitiseInfo($info) {
+  protected static function sanitiseInfo($info): ?array {
     $info = parent::sanitiseInfo($info);
 
     if (empty($info['type'])) {

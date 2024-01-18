@@ -1,8 +1,12 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\acm\Form;
 
+use Drupal\acm\AcmCredential;
 use Drupal\acm\AcmCredentialsManager;
+use Drupal\acm\AcmEnvironment;
 use Drupal\acm\AcmInfoManager;
 use Drupal\Core\Form\ConfigFormBase;
 use Drupal\Core\Form\FormStateInterface;
@@ -23,14 +27,14 @@ class AcmConfigForm extends ConfigFormBase {
    *
    * @var \Drupal\acm\AcmInfoManager
    */
-  protected $infoManager;
+  protected AcmInfoManager $infoManager;
 
   /**
    * The credentials manager.
    *
    * @var \Drupal\acm\AcmCredentialsManager
    */
-  protected $credentialsManager;
+  protected AcmCredentialsManager $credentialsManager;
 
   /**
    * AcmConfigForm constructor.
@@ -48,7 +52,8 @@ class AcmConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public static function create(ContainerInterface $container) {
+  public static function create(ContainerInterface $container): AcmConfigForm {
+    // @phpstan-ignore-next-line
     return new static(
       $container->get('acm.info_manager'),
       $container->get('acm.credentials_manager')
@@ -58,21 +63,27 @@ class AcmConfigForm extends ConfigFormBase {
   /**
    * {@inheritdoc}
    */
-  public function getFormId() {
+  public function getFormId(): string {
     return 'acm_config_form';
   }
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-ignore-next-line
    */
-  protected function getEditableConfigNames() {
+  protected function getEditableConfigNames(): array {
     return [];
   }
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-ignore-next-line
+   *
+   * @SuppressWarnings(PHPMD.ElseExpression)
    */
-  public function buildForm(array $form, FormStateInterface $form_state) {
+  public function buildForm(array $form, FormStateInterface $form_state): array {
     $envs = $this->infoManager->getEnvironments();
 
     $env_options = [];
@@ -151,8 +162,10 @@ class AcmConfigForm extends ConfigFormBase {
 
   /**
    * Render a single credential parameter.
+   *
+   * @phpstan-ignore-next-line
    */
-  protected function renderCredParameter(&$form, $cred, $env) {
+  protected function renderCredParameter(array &$form, AcmCredential $cred, AcmEnvironment $env): void {
     $default_values = $this->credentialsManager->getCredential($cred->getName(), $env->getName());
 
     foreach ($cred->getParameters() as $parameter) {
@@ -180,8 +193,10 @@ class AcmConfigForm extends ConfigFormBase {
 
   /**
    * {@inheritdoc}
+   *
+   * @phpstan-ignore-next-line
    */
-  public function submitForm(array &$form, FormStateInterface $form_state) {
+  public function submitForm(array &$form, FormStateInterface $form_state): void {
     $this->credentialsManager->setCurrentEnvironment($form_state->getValue('current_environment'));
     $this->credentialsManager->setEncryptProfileName($form_state->getValue('encrypt_profile'));
 

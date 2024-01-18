@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\acm;
+
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class AcmCredential.
@@ -16,12 +20,19 @@ class AcmCredential extends AcmAbstractEntity {
    *
    * @var \Drupal\acm\AcmParameter[]
    */
-  protected $parameters;
+  protected array $parameters;
 
   /**
-   * {@inheritdoc}
+   * Contruct.
+   *
+   * @param string $name
+   *   Name.
+   * @param string|\Drupal\Core\StringTranslation\TranslatableMarkup $label
+   *   Label.
+   * @param array<mixed> $info
+   *   Info.
    */
-  public function __construct($name, $label, $info) {
+  public function __construct(string $name, string|TranslatableMarkup $label, array $info) {
     parent::__construct($name, $label);
 
     $this->parameters = !empty($info['parameters']) ? static::createParameterInstances($info['parameters']) : [];
@@ -33,21 +44,21 @@ class AcmCredential extends AcmAbstractEntity {
    * @return \Drupal\acm\AcmParameter[]
    *   Array of parameters.
    */
-  public function getParameters() {
+  public function getParameters(): array {
     return $this->parameters;
   }
 
   /**
    * {@inheritdoc}
    */
-  protected static function getRequiredKeys() {
+  protected static function getRequiredKeys(): array {
     return array_merge(['parameters'], parent::getRequiredKeys());
   }
 
   /**
    * {@inheritdoc}
    */
-  protected static function sanitiseInfo($info) {
+  protected static function sanitiseInfo($info): ?array {
     $info = parent::sanitiseInfo($info);
 
     if (empty($info['parameters'])) {
@@ -60,13 +71,15 @@ class AcmCredential extends AcmAbstractEntity {
   /**
    * Create parameter instances from provided parameter infos.
    *
-   * @param array $infos
+   * @param array<mixed> $infos
    *   Array of paramter infos.
    *
    * @return \Drupal\acm\AcmParameter[]
    *   Array of parameter instances.
+   *
+   * @SuppressWarnings(PHPMD.StaticAccess)
    */
-  protected function createParameterInstances(array $infos) {
+  protected function createParameterInstances(array $infos): array {
     $instances = [];
 
     foreach ($infos as $info) {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\acm;
 
 use Drupal\Core\Extension\ModuleHandler;
@@ -18,21 +20,21 @@ class AcmInfoManager {
    *
    * @var \Drupal\acm\AcmEnvironment[]
    */
-  protected $environments;
+  protected array $environments;
 
   /**
    * Array of endpoints.
    *
    * @var \Drupal\acm\AcmEndpoint[]
    */
-  protected $endpoints;
+  protected array $endpoints;
 
   /**
    * Array of credential definitions.
    *
    * @var \Drupal\acm\AcmCredential[]
    */
-  protected $credentials;
+  protected array $credentials;
 
   /**
    * The module handler.
@@ -61,7 +63,7 @@ class AcmInfoManager {
    * @return \Drupal\acm\AcmEnvironment[]
    *   Array of environment instances.
    */
-  public function getEnvironments() {
+  public function getEnvironments(): array {
     return $this->environments;
   }
 
@@ -71,7 +73,7 @@ class AcmInfoManager {
    * @return \Drupal\acm\AcmEndpoint[]
    *   Array of endpint instances.
    */
-  public function getEndpoints() {
+  public function getEndpoints(): array {
     return $this->endpoints;
   }
 
@@ -81,29 +83,47 @@ class AcmInfoManager {
    * @return \Drupal\acm\AcmCredential[]
    *   Array of credential definition instances.
    */
-  public function getCredentials() {
+  public function getCredentials(): array {
     return $this->credentials;
   }
 
   /**
    * Collect environments from info hooks and instantiate entities.
+   *
+   * @return \Drupal\acm\AcmEnvironment[]
+   *   Array of environment definition instances.
    */
-  protected function collectEnvironments() {
-    return $this->createInstances('acm_environments_info', 'Drupal\acm\AcmEnvironment');
+  protected function collectEnvironments(): array {
+    /** @var \Drupal\acm\AcmEnvironment[] $environments */
+    $environments = $this->createInstances('acm_environments_info', 'Drupal\acm\AcmEnvironment');
+
+    return $environments;
   }
 
   /**
    * Collect endpoints from info hooks and instantiate entities.
+   *
+   * @return \Drupal\acm\AcmEndpoint[]
+   *   Array of endpoint definition instances.
    */
-  protected function collectEndpoints() {
-    return $this->createInstances('acm_endpoints_info', 'Drupal\acm\AcmEndpoint');
+  protected function collectEndpoints(): array {
+    /** @var \Drupal\acm\AcmEndpoint[] $endpoints */
+    $endpoints = $this->createInstances('acm_endpoints_info', 'Drupal\acm\AcmEndpoint');
+
+    return $endpoints;
   }
 
   /**
    * Collect credential definitions from info hooks and instantiate entities.
+   *
+   * @return \Drupal\acm\AcmCredential[]
+   *   Array of credential definition instances.
    */
-  protected function collectCredentials() {
-    return $this->createInstances('acm_credentials_info', 'Drupal\acm\AcmCredential');
+  protected function collectCredentials(): array {
+    /** @var \Drupal\acm\AcmCredential[] $credentials */
+    $credentials = $this->createInstances('acm_credentials_info', 'Drupal\acm\AcmCredential');
+
+    return $credentials;
   }
 
   /**
@@ -111,13 +131,13 @@ class AcmInfoManager {
    *
    * @param string $hook
    *   The hook to invoke.
-   * @param string $class
+   * @param class-string $class
    *   The class name to instantiate an instance.
    *
    * @return \Drupal\acm\AcmAbstractEntity[]
    *   Array of instances.
    */
-  protected function createInstances($hook, $class) {
+  protected function createInstances(string $hook, string $class): array {
     $instances = [];
 
     $infos = [];
@@ -125,6 +145,7 @@ class AcmInfoManager {
     $this->moduleHandler->alter($hook, $infos);
 
     foreach ($infos as $info) {
+      // @phpstan-ignore-next-line
       $instance = call_user_func([$class, 'fromInfo'], $info);
       if ($instance) {
         $instances[] = $instance;

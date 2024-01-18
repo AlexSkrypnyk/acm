@@ -2,13 +2,22 @@
 
 /**
  * @file
+ * ACM test module file.
+ */
+
+declare(strict_types = 1);
+
+/**
+ * @file
  * Simply Energy API module.
  */
 
 /**
  * Implements hook_acm_environments_info().
+ *
+ * @phpstan-ignore-next-line
  */
-function acm_test_acm_environments_info() {
+function acm_test_acm_environments_info(): array {
   return [
     [
       'name' => 'uat',
@@ -23,8 +32,10 @@ function acm_test_acm_environments_info() {
 
 /**
  * Implements hook_acm_endpoints_info().
+ *
+ * @phpstan-ignore-next-line
  */
-function acm_test_acm_endpoints_info() {
+function acm_test_acm_endpoints_info(): array {
   return [
     [
       'name' => 'provider1_uat',
@@ -59,8 +70,10 @@ function acm_test_acm_endpoints_info() {
 
 /**
  * Implements hook_acm_credentials_info().
+ *
+ * @phpstan-ignore-next-line
  */
-function acm_test_acm_credentials_info() {
+function acm_test_acm_credentials_info(): array {
   return [
     [
       'name' => 'service1',
