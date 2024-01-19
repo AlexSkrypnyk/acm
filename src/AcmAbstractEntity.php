@@ -1,6 +1,10 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\acm;
+
+use Drupal\Core\StringTranslation\TranslatableMarkup;
 
 /**
  * Class AcmAbstractEntity.
@@ -13,27 +17,23 @@ class AcmAbstractEntity {
 
   /**
    * Entity (machine) name.
-   *
-   * @var string
    */
-  protected $name;
+  protected string $name;
 
   /**
    * Entity label.
-   *
-   * @var string
    */
-  protected $label;
+  protected string|TranslatableMarkup $label;
 
   /**
    * AcmAbstractEntity constructor.
    *
    * @param string $name
    *   Entity name to set.
-   * @param string $label
+   * @param string|\Drupal\Core\StringTranslation\TranslatableMarkup $label
    *   Entity label.
    */
-  public function __construct($name, $label) {
+  public function __construct(string $name, string|TranslatableMarkup $label) {
     $this->name = $name;
     $this->label = $label;
   }
@@ -44,32 +44,33 @@ class AcmAbstractEntity {
    * @return string
    *   The name of the entity.
    */
-  public function getName() {
+  public function getName(): string {
     return $this->name;
   }
 
   /**
    * Get entity label.
    *
-   * @return string
+   * @return string|\Drupal\Core\StringTranslation\TranslatableMarkup
    *   The label of the entity.
    */
-  public function getLabel() {
+  public function getLabel(): string|TranslatableMarkup {
     return $this->label;
   }
 
   /**
    * Create entity from info.
    *
-   * @param array $info
+   * @param array<mixed> $info
    *   Array of values.
    *
    * @return static|null
    *   Newly created entity instance or NULL if provided info did not contain
    *   all required data.
    */
-  public static function fromInfo(array $info) {
+  public static function fromInfo(array $info): ?static {
     $info = static::sanitiseInfo($info);
+    // @phpstan-ignore-next-line
     return $info ? new static($info['name'], $info['label'], $info) : NULL;
   }
 
@@ -81,7 +82,7 @@ class AcmAbstractEntity {
    * @return string[]
    *   Array of key names that are requried to be present in the info array.
    */
-  protected static function getRequiredKeys() {
+  protected static function getRequiredKeys(): array {
     return [
       'name',
       'label',
@@ -91,13 +92,13 @@ class AcmAbstractEntity {
   /**
    * Sanitise info array.
    *
-   * @param array $info
+   * @param array<mixed> $info
    *   The info array to sanitixse.
    *
-   * @return array|null
+   * @return array<mixed>|null
    *   Sanitised array based on required keys.
    */
-  protected static function sanitiseInfo(array $info) {
+  protected static function sanitiseInfo(array $info): ?array {
     $info_keys = static::getRequiredKeys();
 
     $info = array_intersect_key($info, array_flip($info_keys));
@@ -114,10 +115,10 @@ class AcmAbstractEntity {
   /**
    * Get default values for fields that were not provided.
    *
-   * @return array
+   * @return array<mixed>
    *   Array of default values.
    */
-  protected static function getDefaultValues() {
+  protected static function getDefaultValues(): array {
     return [];
   }
 

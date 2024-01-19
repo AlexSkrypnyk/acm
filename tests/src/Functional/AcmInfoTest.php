@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types = 1);
+
 namespace Drupal\Tests\acm\Functional;
 
 use Drupal\Tests\BrowserTestBase;
@@ -24,7 +26,7 @@ class AcmInfoTest extends BrowserTestBase {
   /**
    * Test that information in info hooks implementation was collected correctly.
    */
-  public function testInfoHooks() {
+  public function testInfoHooks(): void {
     $admin = $this->createUser([], NULL, TRUE);
     $this->drupalLogin($admin);
 
